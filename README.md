@@ -1,4 +1,4 @@
-forward to port (for nginx)
+Forward to port (for nginx)
 ===
 
 A script to create config files to forward hostnames to specific ports
