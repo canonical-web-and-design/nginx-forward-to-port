@@ -83,4 +83,3 @@ def enable_nginx_site_config(hostname):
     enabled_filepath = join(nginx_sites_enabled, config_filename)
 
     symlink(available_filepath, enabled_filepath)
-    service('nginx', 'restart')
