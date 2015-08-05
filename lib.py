@@ -2,8 +2,8 @@
 import argparse
 import sys
 from jinja2 import Environment, FileSystemLoader
-from os import symlink
-from os.path import join
+from os import remove, symlink
+from os.path import join, islink, isfile
 
 
 templates_directory = 'templates'
@@ -68,6 +68,10 @@ def save_nginx_site_config(nginx_config, hostname):
     config_filename = '{}.conf'.format(hostname)
     available_filepath = join(nginx_sites_available, config_filename)
 
+    # Delete the file if it exists
+    if isfile(available_filepath):
+        remove(available_filepath)
+
     with open(available_filepath, 'w') as config_file:
         config_file.write(nginx_config)
 
@@ -79,5 +83,13 @@ def enable_nginx_site_config(hostname):
     config_filename = '{}.conf'.format(hostname)
     available_filepath = join(nginx_sites_available, config_filename)
     enabled_filepath = join(nginx_sites_enabled, config_filename)
+
+    # Check the file to link to exists
+    if not isfile(available_filepath):
+        raise OSError('The file {} does not exist.'.format(available_filepath))
+
+    # Delete any existing symlinks
+    if islink(enabled_filepath):
+        remove(enabled_filepath)
 
     symlink(available_filepath, enabled_filepath)
