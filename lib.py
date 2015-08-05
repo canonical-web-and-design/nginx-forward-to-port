@@ -5,8 +5,6 @@ from jinja2 import Environment, FileSystemLoader
 from os import symlink
 from os.path import join
 
-# Modules
-from sh import service
 
 templates_directory = 'templates'
 forwarder_template = 'forward-to-port.conf'
@@ -83,4 +81,3 @@ def enable_nginx_site_config(hostname):
     enabled_filepath = join(nginx_sites_enabled, config_filename)
 
     symlink(available_filepath, enabled_filepath)
-    service('nginx', 'restart')
