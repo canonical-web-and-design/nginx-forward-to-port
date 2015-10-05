@@ -3,10 +3,10 @@ import argparse
 import sys
 from jinja2 import Environment, FileSystemLoader
 from os import remove, symlink
-from os.path import join, islink, isfile
+from os.path import dirname, join, islink, isfile, realpath
 
-
-templates_directory = 'templates'
+project_directory = dirname(realpath(__file__))
+templates_directory = join(project_directory, 'templates')
 forwarder_template = 'forward-to-port.conf'
 nginx_sites_available = '/etc/nginx/sites-available'
 nginx_sites_enabled = '/etc/nginx/sites-enabled'
